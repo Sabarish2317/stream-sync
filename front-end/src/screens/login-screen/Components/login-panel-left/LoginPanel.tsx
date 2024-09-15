@@ -23,9 +23,27 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
     e.preventDefault();
     // Clear previous errors if this function has called already
     setError("");
+    // cheking if the values are null
+    if (!email || !password) {
+      setError("Please enter both email and password");
+      setLoading(false);
+
+      return;
+    }
+    // Regular expression for basic email validation
+    const validateEmail = (email: string) => {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    };
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+
     //making a post request now
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post("http://192.168.29.16:3000/login", {
         email,
         password,
       });

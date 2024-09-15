@@ -25,7 +25,7 @@ app.post("/login", (req, res) => {
   }
 });
 
-app.listen(port, (error) => {
+app.listen(port, "0.0.0.0", (error) => {
   if (error) {
     console.log(error);
   } else {

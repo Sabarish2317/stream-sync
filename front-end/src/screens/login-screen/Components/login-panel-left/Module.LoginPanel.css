@@ -294,12 +294,15 @@ p {
   .Login-panel-container {
     height: 100%;
     min-width: 320px;
-    gap: 18px;
+    gap: 24px;
   }
   input {
     min-width: 320px;
   }
   .google-apple-butttons {
     gap: 8px;
+  }
+  label {
+    font-weight: 500;
   }
 }
