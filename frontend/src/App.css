@@ -1,0 +1,139 @@
+/* This contains the global styling required for the home page if changed then balls wll be cut*/
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.root {
+  height: 100%;
+  width: 100%;
+}
+/* Body and html */
+html {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 0;
+  height: 100%;
+}
+body {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 500px;
+}
+
+/* typo graphy styles */
+
+h1 {
+  color: #283618;
+  font-family: "Satoshi Variable";
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 98%; /* 62.72px */
+  text-transform: uppercase;
+}
+
+h2 {
+  font-family: "Satoshi Variable";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+h3 {
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+h4 {
+  color: #1e1f21;
+  font-family: "Satoshi Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+h5 {
+  color: rgba(40, 54, 24, 0.8);
+  font-family: "Satoshi Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+p {
+  color: #2e964b;
+  font-family: "Satoshi Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+/* Wrapper Styles */
+.wrapper {
+  background-color: rgb(255, 255, 255);
+  max-width: 1390px;
+  height: 100%;
+  width: 95%;
+  margin: 0 auto;
+  padding: 12px 24px;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 16px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.horizontal-divider {
+  height: 1px; /* Thickness of the divider */
+  width: 100%;
+  background: rgba(17, 24, 38, 0.1);
+  margin: 20px 0; /* Spacing around the divider */
+}
+
+/* Mobile phones (up to 470px) */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 36px;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+  h5 {
+    font-size: 12px;
+  }
+
+  p {
+    font-size: 10px;
+  }
+  /* Wrapper Styles */
+  .wrapper {
+    width: 98%;
+  }
+}
