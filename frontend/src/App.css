@@ -1,4 +1,12 @@
 /* This contains the global styling required for the home page if changed then balls wll be cut*/
+/* content */
+/* Reset CSS */
+/* typography */
+/* global utilities */
+/* global buttons */
+/* responsive text and contaier queries */
+/*  */
+
 /* Reset CSS */
 * {
   margin: 0;
@@ -27,6 +35,7 @@ body {
 }
 
 /* typo graphy styles */
+/* typography styles must be used by this alone as they are responsive cheked */
 
 h1 {
   color: #283618;
@@ -46,7 +55,8 @@ h2 {
   line-height: normal;
 }
 
-h3 {
+h3,
+a {
   font-family: Poppins;
   font-size: 24px;
   font-style: normal;
@@ -79,6 +89,36 @@ p {
   font-weight: 400;
   line-height: normal;
 }
+
+/* global utilities */
+/* contains css for the global ulitlities which are common to whole sit like container ,dividers etc */
+a {
+  color: #283618;
+  text-align: center;
+  font-family: "Satoshi Variable";
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 28.8px */
+}
+.black {
+  font-family: 800;
+}
+.bold {
+  font-weight: 700;
+}
+.semi-bold {
+  font-weight: 600;
+}
+.regular {
+  font-weight: 500;
+}
+.gradient-text {
+  background: linear-gradient(90deg, #88cf55 0%, #4b6f31 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* fallback for unsupported browsers */
+}
 /* Wrapper Styles */
 .wrapper {
   background-color: rgb(255, 255, 255);
@@ -90,23 +130,133 @@ p {
   padding-bottom: 0;
   box-sizing: border-box;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   align-items: center;
   row-gap: 16px;
   align-self: stretch;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  overflow-y: scroll;
+  margin-bottom: 32px;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 .horizontal-divider {
   height: 1px; /* Thickness of the divider */
   width: 100%;
   background: rgba(17, 24, 38, 0.1);
   margin: 20px 0; /* Spacing around the divider */
 }
+/*  */
+/* contias all the button , dropdowns , linkTags and inputs used in the app */
+/* global buttons */
+.button-sm {
+  display: flex;
+  padding: 4px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: #a1e86e;
+  border: none;
+  cursor: pointer;
+  opacity: 100%;
+  color: #283618;
+}
+.button-m {
+  display: flex;
+  padding: 10px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 9px;
+  background: #a1e86e;
+  border: none;
+  cursor: pointer;
+  color: #283618;
+}
 
-/* Mobile phones (up to 470px) */
+.button-outline {
+  background-color: white;
+  outline: 2px solid #a1e86e; /* Your desired color */
+  outline-offset: -2px; /* Moves the outline inside */
+  padding: 10px 24px;
+}
+.button-outline:hover {
+  background-color: #a1e86e7b;
+}
+.button-outline:active {
+  background-color: #a1e86e;
+}
+
+.navigate-link-button:hover {
+  opacity: 70%;
+  text-decoration-line: underline;
+  transition: opacity 100ms ease-in-out, text-decoration-line 100ms ease-in-out;
+}
+.button-m:hover,
+.button-sm:hover {
+  opacity: 70%;
+  transition: opacity 100ms ease-in-out, text-decoration-line 100ms ease-in-out;
+}
+
+.navigate-link-button:active {
+  opacity: 100%;
+  text-decoration-line: underline;
+  transition: opacity 100ms ease-in-out, text-decoration-line 100ms ease-in-out;
+}
+.button-m:active,
+.button-sm:active {
+  opacity: 100%;
+
+  transition: opacity 100ms ease-in-out, text-decoration-line 100ms ease-in-out;
+}
+/* using instread of a tag for react routing */
+.navigate-link-button {
+  border: none;
+  background: none;
+}
+
+/*  */
+/* responsivesness for the typography */
+/* inline styles are used for element responsiveness */
+/* this file contains all the styling for the components requiring the media queries */
+/* tablet phones (up to 1024px) */
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 48px;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+  }
+
+  h3,
+  a {
+    font-size: 21px;
+  }
+
+  h4 {
+    font-size: 15px;
+  }
+  h5 {
+    font-size: 13px;
+  }
+
+  p {
+    font-size: 11px;
+  }
+
+  .not-on-tablet-and-lesser-view {
+    display: none;
+  }
+}
+
+/* Mobile phones (up to 600px) */
 @media (max-width: 600px) {
   h1 {
     font-size: 36px;
@@ -118,7 +268,8 @@ p {
     font-weight: 500;
   }
 
-  h3 {
+  h3,
+  a {
     font-size: 18px;
   }
 
@@ -135,5 +286,59 @@ p {
   /* Wrapper Styles */
   .wrapper {
     width: 98%;
+  }
+}
+
+/* Mobile phones (up to 470px) */
+@media (max-width: 470px) {
+  h1 {
+    font-size: 28px;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  h3,
+  a {
+    font-size: 16px;
+  }
+
+  h4 {
+    font-size: 12px;
+  }
+  h5 {
+    font-size: 10px;
+  }
+
+  p {
+    font-size: 9px;
+  }
+
+  /* Wrapper Styles */
+  .wrapper {
+    width: 98%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Additional Styles for Extra Small Screens */
+  .container {
+    padding: 5px;
+  }
+
+  img {
+    width: 80%; /* Reduce image size */
+  }
+
+  .button {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  .not-on-tablet-and-lesser-view {
+    display: none;
   }
 }

@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import "./../../../../App.css";
-import "./../../Module.Login-screen.css";
-import "./Module.LoginPanel.css";
+import "./Module.SignupPanel.css";
 import axios from "axios";
+import uri from "../../../../../utils/constants";
+import { Link } from "react-router-dom";
 
-interface LoginPanelProps {}
+interface SignupPanelProps {}
 
-const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
+const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
   //
   //STATE MANAGEMENT
   //
   // state-for-login-items
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   // calling api to validate the form
@@ -40,10 +41,14 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
       setLoading(false);
       return;
     }
-
+    if (password != confirmPassword) {
+      setError("Passwords does't match");
+      setLoading(false);
+      return;
+    }
     //making a post request now
     try {
-      const response = await axios.post("http://192.168.29.16:3000/login", {
+      const response = await axios.post(`${uri}/api/signup`, {
         email,
         password,
       });
@@ -54,12 +59,9 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
     } catch (err: any) {
       setLoading(false);
       // Handle error and display error messages
+
       if (err.response) {
-        if (err.response.status === 400) {
-          setError("Invalid email or password");
-        } else {
-          setError("Something went wrong. Please try again.");
-        }
+        setError(err.response.data.message);
       } else {
         setError("Network error. Please check your connection.");
       }
@@ -71,16 +73,12 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
     setShowPassword(!showPassword);
   };
   //STATE MANAGEMENT
-  // custom-checkbox-STATE
-  const [isTicked, toggleTick] = useState(true);
-  const toggleCheckBox = () => {
-    toggleTick(!isTicked);
-  };
+
   return (
     <div className="Login-panel-container">
       <img src="/assets/icons/logo-icon.svg" alt="Sync-Stream" />
       <div className="Login-panel-hero">
-        <h2>Welcome back !</h2>
+        <h2>Welcome to Stream Sync!</h2>
         <h3>Watch together perfect in sync</h3>
       </div>
       {/* error div to show error from the api */}
@@ -97,7 +95,6 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
             name="email"
             id="email"
             placeholder="Enter your email"
-            autoComplete="email"
             onChange={(e) => setEmail(e.target.value)}
             className={error && "error-input"}
           />
@@ -113,7 +110,6 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
               name="password"
               id="password"
               placeholder="Enter your password"
-              autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
               className={error && "error-input"}
             />
@@ -137,38 +133,43 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
           </div>
         </div>
         {/*  */}
-        {/* forgot password row */}
-        {/*  */}
-        <div className="rem-me-for-pass-row">
-          <div
-            className="rem-me"
-            onClick={toggleCheckBox}
-            style={{ cursor: "pointer" }}
-          >
-            {/* custom icon inside the checkbox */}
-            <div className={`custom-checkbox`}>
-              <img
-                src={
-                  isTicked
-                    ? "/assets/icons/tick-icon.svg"
-                    : "/assets/icons/tick-no.svg"
-                }
-                alt="checkbox"
-                style={{ height: "14.1px", width: "14px", cursor: "pointer" }}
-              />
-            </div>
-            <h4 style={{ color: "rgba(40, 54, 24, 0.50)" }}>Remeber me</h4>
+        {/*confirm password  */}
+        {/* */}
+        <div className="input-container">
+          <label htmlFor="confirm-password">Confirm Password</label>
+          <div className="input-password-wrapper-for-eye-icon ">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="confirm-password"
+              id="confirm-password"
+              placeholder="Enter your confirm password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={error && "error-input"}
+            />
+            <img
+              src={
+                showPassword
+                  ? "/assets/icons/eye-close-icon.svg"
+                  : "/assets/icons/eye-open.svg"
+              }
+              alt={showPassword ? "Hide password" : "Show password"}
+              className={showPassword ? "icon-show" : "icon-hide"}
+              id="toggle-icon"
+              onClick={togglePasswordVisibility}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+            />
           </div>
-
-          <h4 style={{ color: "rgba(40, 54, 24, 0.80)", cursor: "pointer" }}>
-            Forgot password
-          </h4>
         </div>
         {/*  */}
         {/* login button */}
         {/*  */}
         <button type="submit" className="login-button">
-          {loading ? "Logging in" : "Login"}
+          {loading ? "Signing in" : "SignUp"}
         </button>
         {/*  */}
         {/* divider */}
@@ -195,11 +196,15 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
       {/*  */}
       {/* end of the form */}
       {/* signup text */}
+
       <p>
-        Don't have an account <span className="sign-up-span">SignUp</span>
+        Already have an account{" "}
+        <Link to="/login">
+          <span className="sign-up-span">SignIn</span>
+        </Link>
       </p>
     </div>
   );
 };
 
-export default LoginPanel;
+export default SignupPanel;

@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const connectionDb = async () => {
   await mongoose
     .connect(
-      "mongodb+srv://sabarish7:Gu6p4AIzc740EYkf@streamsync.remcb.mongodb.net/?retryWrites=true&w=majority&appName=streamSync"
+      process.env.CONNECTION_STRING
+      // "mongodb+srv://sabarish7:Gu6p4AIzc740EYkf@streamsync.remcb.mongodb.net/?retryWrites=true&w=majority&appName=streamSync"
     )
     .then(() => {
       console.log(`Connected to database`);

@@ -1,5 +1,5 @@
 import React from "react";
-import LoginPanel from "./Components/login-panel-left/LoginPanel";
+import LoginPanel from "./Components/login-panel/LoginPanel";
 
 interface LoginScreenProps {}
 

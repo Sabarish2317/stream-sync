@@ -8,6 +8,7 @@
   justify-content: center;
   gap: 24px;
   align-self: stretch;
+  padding: 16px;
 }
 
 /* container for the login panel */
