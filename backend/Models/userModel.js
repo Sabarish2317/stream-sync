@@ -3,12 +3,31 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, "Please add an email"],
+    required: true,
     unique: true,
+    trim: true,
   },
-  hashedPassword: {
+  passwordHash: {
     type: String,
-    required: [true, "Please add a password"],
+    // select: false,
+  },
+  profilePicture: {
+    type: String,
+  },
+  oauth: {
+    provider: {
+      type: String,
+    },
+    providerId: {
+      type: String,
+    },
+    token: {
+      type: String,
+    },
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

@@ -132,7 +132,7 @@ a {
   flex-direction: column;
   justify-content: top;
   align-items: center;
-  row-gap: 16px;
+  row-gap: 0px;
   align-self: stretch;
   display: flex;
   flex-direction: column;
@@ -152,6 +152,9 @@ a {
 /*  */
 /* contias all the button , dropdowns , linkTags and inputs used in the app */
 /* global buttons */
+.buttons-container {
+  gap: 24px;
+}
 .button-sm {
   display: flex;
   padding: 4px 24px;
@@ -250,14 +253,16 @@ a {
   p {
     font-size: 11px;
   }
-
+  .buttons-container {
+    gap: 20px;
+  }
   .not-on-tablet-and-lesser-view {
     display: none;
   }
 }
 
 /* Mobile phones (up to 600px) */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   h1 {
     font-size: 36px;
     font-weight: 500;
@@ -287,6 +292,15 @@ a {
   .wrapper {
     width: 98%;
   }
+  /* button styles */
+  .button,
+  .button-m,
+  .button-sm {
+    padding: 8px 12px;
+  }
+  .buttons-container {
+    gap: 18px;
+  }
 }
 
 /* Mobile phones (up to 470px) */
@@ -303,7 +317,7 @@ a {
 
   h3,
   a {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   h4 {
@@ -329,10 +343,6 @@ a {
     padding: 5px;
   }
 
-  img {
-    width: 80%; /* Reduce image size */
-  }
-
   .button {
     padding: 6px 12px;
     font-size: 10px;
@@ -340,5 +350,8 @@ a {
 
   .not-on-tablet-and-lesser-view {
     display: none;
+  }
+  .buttons-container {
+    gap: 8px;
   }
 }

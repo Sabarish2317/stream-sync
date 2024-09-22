@@ -4,11 +4,17 @@ const connectionDb = require("./db-config");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./../.env" });
 //routes
-const userRoutes = require("./Routes/userAuthRoutes");
+const userRoutes = require("./Routes/routes");
 //middleware
 const app = express();
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 
 //routes
 app.use("/api", userRoutes); //user Authenticationn routes

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "./Module.SignupPanel.css";
 import axios from "axios";
 import uri from "../../../../../utils/constants";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 interface SignupPanelProps {}
 
 const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
+  const navigate = useNavigate();
   //
   //STATE MANAGEMENT
   //
@@ -53,7 +54,8 @@ const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
         password,
       });
       if (response.status === 200) {
-        console.log("login successful");
+        localStorage.setItem("token", response.data.token);
+        navigate("/home-page");
       }
       setLoading(false);
     } catch (err: any) {

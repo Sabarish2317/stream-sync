@@ -7,9 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 interface LoginPanelProps {}
 
 const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
-  //
-  //STATE MANAGEMENT
+  //Route naviagation obj
   const navigate = useNavigate();
+  //STATE MANAGEMENT
   // state-for-login-items
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +50,8 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
         password,
       });
       if (response.status === 200) {
-        console.log("login successful");
+        // Save token and redirect to home page
+        localStorage.setItem("token", response.data.token);
         navigate("/home-page");
       }
       setLoading(false);
@@ -75,6 +76,7 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
   const toggleCheckBox = () => {
     toggleTick(!isTicked);
   };
+
   return (
     <div className="Login-panel-container">
       <img src="/assets/icons/logo-icon.svg" alt="Sync-Stream" />
@@ -167,7 +169,7 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
         {/* login button */}
         {/*  */}
         <button type="submit" className="login-button">
-          {loading ? "Logging in" : "Login"}
+          {loading ? <div className="loader"></div> : "Login"}
         </button>
         {/*  */}
         {/* divider */}
@@ -180,8 +182,14 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
         {/*  */}
         {/* other login options */}
         {/*  */}
+
         <div className="google-apple-butttons">
-          <button className="google-apple-buttton" type="button">
+          {/* google oauth button */}
+          <button
+            className="google-apple-buttton"
+            type="button"
+            style={{ cursor: "pointer" }}
+          >
             <img src="/assets/icons/google-icon.svg" alt="google.in" />
             Google
           </button>
