@@ -8,6 +8,7 @@ const saltRounds = 10;
 exports.signup = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const name = email.split("@")[0];
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -18,7 +19,7 @@ exports.signup = async (req, res) => {
     } else {
       // Create a new user
       const passwordHash = await bcrypt.hash(password, saltRounds);
-      const newUser = new User({ email, passwordHash });
+      const newUser = new User({ email, passwordHash, name });
       await newUser.save();
 
       //Creating jwt token

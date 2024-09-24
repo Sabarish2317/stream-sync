@@ -140,8 +140,92 @@
   height: 48px;
   border-radius: 290px;
   border: 4px solid #a1e86e;
+  cursor: pointer;
 }
 
+.profile-image-container-hover:hover {
+  border: 4px solid #75db2d;
+  transition: border 100ms ease-in-out;
+}
+
+/* css for the popup profile */
+.profile-dialog {
+  display: flex;
+  width: 280px;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+  border-radius: 16px;
+  border: 2px solid #f3f3f4;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+}
+.profile-dialog h5 {
+  color: #283618;
+  font-weight: 600;
+}
+
+/* my custom dialogue box fr the popup */
+.my-dialogoue-popup {
+  display: inline-flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 16px;
+  border: 2px solid #f3f3f4;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+}
+.popUpContainer {
+  transition: display 1000ms ease-in-out;
+}
+
+.terinary-button {
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 9px;
+  background: #dddede;
+  box-shadow: 2px 0px 30px 0px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.terinary-button:hover {
+  opacity: 80%;
+  transition: opacity 100ms ease-in-out;
+}
+
+.background-wrapper-for-dialogue {
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000001;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  display: flex;
+}
+/* 
+
+
+
+
+from here all the responsiveness of 
+the individual 
+components are handled 
+
+
+
+*/
 @media (max-width: 750px) {
   .only-on-pc-view {
     display: none;

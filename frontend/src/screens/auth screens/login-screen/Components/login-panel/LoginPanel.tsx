@@ -3,10 +3,17 @@ import "./Module.LoginPanel.css";
 import axios from "axios";
 import uri from "../../../../../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 interface LoginPanelProps {}
 
 const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
+  // handling google oauth 2.0 login
+  interface GoogleJwtPayload {
+    email?: string;
+    email_verified?: boolean;
+  }
   //Route naviagation obj
   const navigate = useNavigate();
   //STATE MANAGEMENT
@@ -185,14 +192,57 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
 
         <div className="google-apple-butttons">
           {/* google oauth button */}
-          <button
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              const credential = credentialResponse?.credential;
+
+              if (credential) {
+                const decoded = jwtDecode<GoogleJwtPayload>(credential);
+
+                if (!decoded.email) {
+                  setError("Error try signing in another way");
+                  setLoading(false);
+                  return;
+                }
+                try {
+                  const response = await axios.post(
+                    `${uri}/api/oauth2/google/login`,
+                    {
+                      email: decoded.email,
+                    }
+                  );
+                  if (response.status === 200) {
+                    // Save token and redirect to home page
+                    localStorage.setItem("token", response.data.token);
+                    navigate("/home-page");
+                  }
+                  setLoading(false);
+                } catch (err: any) {
+                  setLoading(false);
+                  // Handle error and display error messages
+                  if (err.response) {
+                    setError(err.response.data.message);
+                  } else {
+                    setError("Network error. Please check your connection.");
+                  }
+                }
+              } else {
+                console.error("Error signing up try another way");
+              }
+            }}
+            onError={() => {
+              console.log("Signup Failed");
+            }}
+          />
+
+          {/* <button
             className="google-apple-buttton"
             type="button"
             style={{ cursor: "pointer" }}
           >
             <img src="/assets/icons/google-icon.svg" alt="google.in" />
             Google
-          </button>
+          </button> */}
           <button className="google-apple-buttton" type="button">
             <img src="/assets/icons/apple-icon.svg" alt="apple.in" />
             Apple

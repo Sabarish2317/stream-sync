@@ -3,11 +3,20 @@ import "./Module.SignupPanel.css";
 import axios from "axios";
 import uri from "../../../../../utils/constants";
 import { useNavigate, Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 interface SignupPanelProps {}
 
 const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
   const navigate = useNavigate();
+  // custom class to replicate the google login response of credentials
+  interface GoogleJwtPayload {
+    email?: string;
+    name?: string;
+    picture?: string;
+  }
+
   //
   //STATE MANAGEMENT
   //
@@ -28,6 +37,12 @@ const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
     // cheking if the values are null
     if (!email || !password) {
       setError("Please enter both email and password");
+      setLoading(false);
+
+      return;
+    }
+    if (password.length > 8) {
+      setError("Password length must be greater than 8 characters");
       setLoading(false);
 
       return;
@@ -53,7 +68,7 @@ const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
         email,
         password,
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         localStorage.setItem("token", response.data.token);
         navigate("/home-page");
       }
@@ -170,7 +185,7 @@ const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
         {/*  */}
         {/* login button */}
         {/*  */}
-        <button type="submit" className="login-button">
+        <button type={loading ? "button" : "submit"} className="login-button">
           {loading ? "Signing in" : "SignUp"}
         </button>
         {/*  */}
@@ -185,10 +200,49 @@ const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
         {/* other login options */}
         {/*  */}
         <div className="google-apple-butttons">
-          <button className="google-apple-buttton" type="button">
-            <img src="/assets/icons/google-icon.svg" alt="google.in" />
-            Google
-          </button>
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              const credential = credentialResponse?.credential;
+
+              if (credential) {
+                const decoded = jwtDecode<GoogleJwtPayload>(credential);
+                if (!decoded.email || !decoded.name || !decoded.picture) {
+                  setError("Error try signing in another way");
+                  setLoading(false);
+                  return;
+                }
+                try {
+                  const response = await axios.post(
+                    `${uri}/api/oauth2/google/signup`,
+                    {
+                      email: decoded.email,
+                      name: decoded.name,
+                      profilePicture: decoded.picture,
+                    }
+                  );
+                  if (response.status === 201) {
+                    // Save token and redirect to home page
+                    localStorage.setItem("token", response.data.token);
+                    navigate("/home-page");
+                  }
+                  setLoading(false);
+                } catch (err: any) {
+                  setLoading(false);
+                  // Handle error and display error messages
+                  if (err.response) {
+                    setError(err.response.data.message);
+                  } else {
+                    setError("Network error. Please check your connection.");
+                  }
+                }
+              } else {
+                console.error("Error signing up try another way");
+              }
+            }}
+            onError={() => {
+              console.log("Signup Failed");
+            }}
+          />
           <button className="google-apple-buttton" type="button">
             <img src="/assets/icons/apple-icon.svg" alt="apple.in" />
             Apple

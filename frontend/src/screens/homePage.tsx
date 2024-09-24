@@ -14,6 +14,10 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
   const navigate = useNavigate();
   const [emailData, setEmail] = useState("");
   const [pfp, setPfp] = useState("");
+  const [friends, setFriends] = useState(0);
+  const [name, setName] = useState("");
+  const [roomsCreated, setRoomsCreated] = useState(0);
+  const [createdAt, setCreatedAt] = useState("");
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
@@ -30,9 +34,12 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (response.status === 200) {
-            console.log(response.data);
             setEmail(response.data.email);
-            setPfp(response.data.profilePicture);
+            setPfp(response.data.pfp);
+            setName(response.data.name);
+            setFriends(response.data.friends);
+            setRoomsCreated(response.data.roomsCreated);
+            setCreatedAt(response.data.joinedAt);
             setIsAuthenticated(true);
             setLoading(false);
           }
@@ -47,13 +54,22 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
   }, []);
 
   return loading ? (
-    <div className="loader"></div>
+    <div className="wrapper" style={{ justifyContent: "center" }}>
+      <div className="loader"></div>
+    </div>
   ) : (
     // wrapper for the whole page
     <div className="wrapper">
       {/* <Nav_Bar_Component /> */}
       {isAuthenticated ? (
-        <Nav_Bar_loggedIn_Component email={emailData} profilePicture={pfp} />
+        <Nav_Bar_loggedIn_Component
+          email={emailData}
+          profilePicture={pfp}
+          name={name}
+          createdAt={createdAt}
+          friends={friends}
+          roomsCreated={roomsCreated}
+        />
       ) : (
         <Nav_Bar_Component />
       )}

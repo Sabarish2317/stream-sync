@@ -19,11 +19,23 @@ exports.home = async (req, res) => {
         const user = await User.findOne({ email });
 
         // sending the response back to the user for login with profile,email and id
+        // Formatting the date
+        const dateObj = new Date(user.createdAt);
+
+        const formattedDate = dateObj.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
 
         res.status(200).json({
           userId: user._id,
           email: user.email,
+          name: user.name,
+          joinedAt: formattedDate,
           pfp: user.profilePicture,
+          roomsCreated: user.roomsCreated,
+          friends: user.friends,
           message: "User logged in successfully",
           //   token: token
         });

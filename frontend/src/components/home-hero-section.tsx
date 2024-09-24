@@ -1,6 +1,6 @@
 import React from "react";
 import "./../App.css";
-import MarqueeAnimation from "./marquee_icons_animation/marquee-icon";
+import MarqueeAnimation from "./marquee-icon";
 import { useNavigate } from "react-router-dom";
 
 interface HomePageHeroSectionProps {
