@@ -1,34 +1,36 @@
 const express = require("express");
 const cors = require("cors");
-//middle ware
+const connectionDb = require("./db-config");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./../.env" });
+//routes
+const userRoutes = require("./Routes/routes");
+//middleware
 const app = express();
-
 app.use(express.json());
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-const port = 3000;
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//   })
-// );
-app.use(cors());
+app.use(cors(corsOptions));
 
-//endpoints
-app.post("/login", (req, res) => {
-  const email_db = "Sr@gmail.com";
-  const password_db = "Sr7";
-  let { email, password } = req.body;
-  if (email === email_db && password === password_db) {
-    res.status(200).json({ Message: "logged in successfully" });
-  } else {
-    res.status(400).json({ Message: "Incorrect username or password" });
-  }
+//routes
+app.use("/api", userRoutes); //user Authenticationn routes
+//default endpoint
+app.use("*", (req, res) => {
+  console.log("correct ah type pandra");
+  res.send("correct ah type pandra");
 });
 
-app.listen(port, (error) => {
+//server and db setup
+const port = process.env.PORT;
+connectionDb();
+app.listen(port, "0.0.0.0", (error) => {
   if (error) {
     console.log(error);
   } else {
-    console.log(`Server running on the port ${port}`);
+    console.log(`Server running on port ${port}`);
   }
 });
