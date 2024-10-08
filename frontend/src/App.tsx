@@ -1,5 +1,6 @@
 import LoginScreen from "./screens/auth screens/login-screen/Login-screen";
 import SignupScreen from "./screens/auth screens/signup-screen/Signup-screen";
+import JoinMeetingPage from "./screens/joinMeetingPage";
 import {
   BrowserRouter as Router,
   Route,
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/signup" element={<SignupScreen />} />
         <Route path="/home-page" element={<HomePage />} />
+        <Route path="/rooms" element={<JoinMeetingPage />} />
       </Routes>
     </Router>
   );

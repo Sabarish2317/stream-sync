@@ -5,11 +5,13 @@ import uri from "../../../../../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { useRef } from "react";
 
 interface LoginPanelProps {}
 
 const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
   // handling google oauth 2.0 login
+  const myRef = useRef(null);
   interface GoogleJwtPayload {
     email?: string;
     email_verified?: boolean;

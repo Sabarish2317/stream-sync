@@ -29,7 +29,7 @@ const TimeDisplay = () => {
   };
 
   return (
-    <div>
+    <div className="only-on-pc-view">
       <h4>{formatTime(currentTime)}</h4>
     </div>
   );
