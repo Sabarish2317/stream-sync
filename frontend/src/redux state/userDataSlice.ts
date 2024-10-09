@@ -45,7 +45,7 @@ const userSlice = createSlice({
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.loading = false;
         state.userData = action.payload;
-        state.isAuthenticated = true; // If you want to set this based on a successful fetch
+        state.isAuthenticated = true;
         state.error = "";
       })
       .addCase(fetchUserData.rejected, (state, action) => {

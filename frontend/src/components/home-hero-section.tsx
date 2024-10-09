@@ -54,7 +54,7 @@ const HomePageHeroSection: React.FC<HomePageHeroSectionProps> = ({
               alignItems: "flex-start",
             }}
           >
-            <button className="button-m button-outline">
+            <button className=" button-outline button-m ">
               <h3 className="regular">
                 {isAuthenticated ? "Join a room" : "Learn more"}
               </h3>

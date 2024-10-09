@@ -230,13 +230,15 @@ components are handled
 */
 /* join meeting frame container */
 .join-meeting-frame-container {
+  min-height: 70px;
+  min-width: 45px;
   width: 50%;
   height: 50%;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   position: relative;
   justify-content: center;
   display: flex;
   border-radius: 12px;
-  background: #333537;
 }
 /* CSS FOR THE JOIN-MEETING-FRAME */
 .join-meeting-frame {
@@ -247,6 +249,37 @@ components are handled
   background: #333537;
   position: relative;
   object-fit: cover;
+}
+.user-name-container {
+  display: inline-flex;
+  padding: 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 12px;
+  opacity: 0.5;
+  background: #494b4d;
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+}
+
+.circle-name-container {
+  display: flex;
+  height: 50%;
+  aspect-ratio: 1 / 1;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #55c37b;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  z-index: 1;
 }
 .media-buttons-controller {
   display: flex;

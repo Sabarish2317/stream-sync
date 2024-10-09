@@ -19,7 +19,7 @@ const initialState: mediaControllerPopupState = {
   type: "",
   isMuted: false,
   isVideoOn: false,
-  isAudioOn: false,
+  isAudioOn: true,
   micDeviceId: "default",
   videoDeviceId: "",
 };
@@ -39,7 +39,7 @@ const mediaControllerPopupState = createSlice({
       switch (deviceType) {
         case "micDeviceId":
           state.micDeviceId = deviceId;
-          console.log(state.micDeviceId);
+
           break;
 
         case "videoDeviceId":

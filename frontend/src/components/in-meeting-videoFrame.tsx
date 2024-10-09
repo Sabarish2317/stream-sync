@@ -1,5 +1,4 @@
 import React from "react";
-import test_male from "./../../public/assets/images/test_male.png";
 
 interface VideoFrameProps {
   isVideoOn: boolean;
@@ -8,7 +7,7 @@ interface VideoFrameProps {
   streamSource: string;
 }
 
-const VideoFrame: React.FC<VideoFrameProps> = ({}) => {
+const VideoFrame: React.FC<VideoFrameProps> = () => {
   return (
     <>
       <div

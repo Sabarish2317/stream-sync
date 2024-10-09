@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import UserData from "../models/userModel";
 import { closeProfileDialoguePopup } from "../redux state/profileDialoguePopupSlice";
 import { useDispatch } from "react-redux";
-
+import AlertContext from "../contexts/alertContext";
 // import MyDialoguePopup from "./my-dialogue-popup";
 interface Profile_dialogue_boxProps {
   userData: UserData;
@@ -14,6 +14,14 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
   userData,
   imgUrl,
 }) => {
+  //using alert context to show alert
+  const { setAlert, setPrimaryButton, setSecondaryButton } =
+    useContext(AlertContext);
+  const showAlert = () => {
+    setAlert("Logout", "Are you sure want to logout?", "info");
+    setPrimaryButton("Logout", () => logout());
+    setSecondaryButton("Cancel", () => console.log("Secondary Action"));
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const logout = () => {
@@ -104,7 +112,7 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
             <div
               className="logout-button row button"
               style={{ justifyContent: "start", gap: "12px" }}
-              onClick={logout}
+              onClick={showAlert}
             >
               <img src="/assets/icons/logout-icon.svg" alt="logout" />
               <h5>Logout</h5>
@@ -112,15 +120,6 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
           </div>
         </div>
       </div>
-      {/* <MyDialoguePopup
-        title={"Warning"}
-        content={"Are you sure you want to log out?"}
-        primaryAction={() => console.log("logout")}
-        primaryActionColor="#DC3912"
-        primaryActionText="Logout"
-        secondaryAction={() => console.log("close")}
-        secondaryActionText="Cancel"
-      /> */}
     </>
   );
 };

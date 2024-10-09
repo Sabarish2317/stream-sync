@@ -32,7 +32,7 @@ const JoinMeetingPage: React.FC = () => {
       ) : (
         <Nav_Bar_Component />
       )}
-      {userData ? <JoinMeetingFrame userData={userData} /> : null}
+      {userData?.name ? <JoinMeetingFrame userData={userData} /> : null}
     </div>
   );
 };
