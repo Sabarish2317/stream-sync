@@ -2,9 +2,7 @@ import React from "react";
 import "./../components.css";
 import { useNavigate } from "react-router-dom";
 
-interface Nav_Bar_ComponentProps {}
-
-const Nav_Bar_Component: React.FC<Nav_Bar_ComponentProps> = ({}) => {
+const Nav_Bar_Component: React.FC = () => {
   //Route
   const navigate = useNavigate();
 
@@ -31,25 +29,25 @@ const Nav_Bar_Component: React.FC<Nav_Bar_ComponentProps> = ({}) => {
             className="navigate-link-button not-on-tablet-and-lesser-view "
             onClick={() => navigate("")}
           >
-            <h3>Features</h3>
+            <h3 style={{ color: "rgba(40, 54, 24, 0.8)" }}>Features</h3>
           </button>
           <button
             className="navigate-link-button not-on-tablet-and-lesser-view "
             onClick={() => navigate("")}
           >
-            <h3>Pricing</h3>
+            <h3 style={{ color: "rgba(40, 54, 24, 0.8)" }}>Pricing</h3>
           </button>
           <button
             className="navigate-link-button not-on-tablet-and-lesser-view "
             onClick={() => navigate("")}
           >
-            <h3>Help</h3>
+            <h3 style={{ color: "rgba(40, 54, 24, 0.8)" }}>Help</h3>
           </button>
           <button
             className="navigate-link-button not-on-tablet-and-lesser-view "
             onClick={() => navigate("/signup")}
           >
-            <h3>Register</h3>
+            <h3 style={{ color: "rgba(40, 54, 24, 0.8)" }}>Register</h3>
           </button>
           <button
             className="button-sm"

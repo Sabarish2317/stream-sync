@@ -1,29 +1,37 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import UserData from "../models/userModel";
+import { closeProfileDialoguePopup } from "../redux state/profileDialoguePopupSlice";
+import { useDispatch } from "react-redux";
+import AlertContext from "../contexts/alertContext";
+import base64Converter from "../utils/base64Converter";
 // import MyDialoguePopup from "./my-dialogue-popup";
 interface Profile_dialogue_boxProps {
-  profilePicture?: string;
-  // url of the profile picture generated on default based on the email
-  imgUrl: string;
-  email: string;
-  name: string;
-  friends: number;
-  roomsCreated: number;
-  createdAt: string;
+  userData: UserData;
 }
 
 const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
-  profilePicture,
-  imgUrl,
-  email,
-  name,
-  friends,
-  roomsCreated,
-  createdAt,
+  userData,
 }) => {
+  //using alert context to show alert
+  const { setAlert, setPrimaryButton, setSecondaryButton } =
+    useContext(AlertContext);
+  const showAlert = () => {
+    setAlert("Logout", "Are you sure want to logout?", "logout");
+    setPrimaryButton("Logout", () => logout());
+    setSecondaryButton("Cancel", () => console.log("Secondary Action"));
+  };
+  const navigate = useNavigate();
+  const location = useLocation();
   const logout = () => {
     localStorage.removeItem("token");
+    if (location.pathname !== "/home-page") {
+      navigate("/home-page");
+    }
     window.location.reload();
   };
+  const dispatch = useDispatch();
+
   return (
     <>
       <div className="profile-dialog">
@@ -43,7 +51,10 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
           >
             <h4 style={{ color: "white" }}>Online</h4>
           </div>
-          <button className="button-xs">
+          <button
+            className="button-xs"
+            onClick={() => dispatch(closeProfileDialoguePopup())}
+          >
             <img src="/assets/icons/close-icon.svg" alt="close" />
           </button>
         </div>
@@ -56,21 +67,21 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
         >
           <img
             className="profile-image-container"
-            src={profilePicture ? profilePicture : imgUrl}
+            src={base64Converter(userData)}
             alt="profile"
           />
           <div className="name-and-email-container column">
-            <h5 style={{ textAlign: "center" }}>{name}</h5>
-            <h6>{email}</h6>
+            <h5 style={{ textAlign: "center" }}>{userData.name}</h5>
+            <h6>{userData.email}</h6>
           </div>
-          <h6>Joined at {createdAt}</h6>
+          <h6>Joined at {userData.joinedAt}</h6>
           {/* friends and room count container */}
           <div className="friends-and-roomCount-container row">
             <div
               className="friends-container"
               style={{ padding: "0px 8px", width: "100%" }}
             >
-              <h5 style={{ textAlign: "center" }}>{friends ?? 0}</h5>
+              <h5 style={{ textAlign: "center" }}>{userData.friends ?? 0}</h5>
               <h6>Friends</h6>
             </div>
             <div className="vertical-divider"></div>
@@ -78,7 +89,7 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
               className="roomCount-container"
               style={{ padding: "0px 8px", width: "100%" }}
             >
-              <h5 style={{ textAlign: "center" }}>{roomsCreated}</h5>
+              <h5 style={{ textAlign: "center" }}>{userData.roomsCreated}</h5>
               <h6>Rooms created</h6>
             </div>
           </div>
@@ -100,7 +111,7 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
             <div
               className="logout-button row button"
               style={{ justifyContent: "start", gap: "12px" }}
-              onClick={logout}
+              onClick={showAlert}
             >
               <img src="/assets/icons/logout-icon.svg" alt="logout" />
               <h5>Logout</h5>
@@ -108,15 +119,6 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
           </div>
         </div>
       </div>
-      {/* <MyDialoguePopup
-        title={"Warning"}
-        content={"Are you sure you want to log out?"}
-        primaryAction={() => console.log("logout")}
-        primaryActionColor="#DC3912"
-        primaryActionText="Logout"
-        secondaryAction={() => console.log("close")}
-        secondaryActionText="Cancel"
-      /> */}
     </>
   );
 };

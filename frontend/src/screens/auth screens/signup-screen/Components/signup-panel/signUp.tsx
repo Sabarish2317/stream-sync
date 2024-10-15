@@ -6,9 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
-interface SignupPanelProps {}
-
-const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
+const SignupPanel: React.FC = () => {
   const navigate = useNavigate();
   // custom class to replicate the google login response of credentials
   interface GoogleJwtPayload {
@@ -212,14 +210,11 @@ const SignupPanel: React.FC<SignupPanelProps> = ({}) => {
                   return;
                 }
                 try {
-                  const response = await axios.post(
-                    `${uri}/api/oauth2/google/signup`,
-                    {
-                      email: decoded.email,
-                      name: decoded.name,
-                      profilePicture: decoded.picture,
-                    }
-                  );
+                  const response = await axios.post(`${uri}/api/signup`, {
+                    email: decoded.email,
+                    name: decoded.name,
+                    oAuthProfileurl: decoded.picture,
+                  });
                   if (response.status === 201) {
                     // Save token and redirect to home page
                     localStorage.setItem("token", response.data.token);
