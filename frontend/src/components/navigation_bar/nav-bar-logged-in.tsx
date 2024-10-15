@@ -4,10 +4,10 @@ import "./../../App.css";
 import TimeDisplay from "../../utils/get_date_time";
 import Profile_dialogue_box from "../profile_dialogue_box";
 import UserData from "../../models/userModel";
-import get_image_from_api from "../../utils/multi-avatar-api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./../../redux state/store";
 import { openProfileDialoguePopup } from "../../redux state/profileDialoguePopupSlice";
+import base64Converter from "../../utils/base64Converter";
 
 // import MyDialoguePopup from "../my-dialogue-popup";
 
@@ -26,7 +26,7 @@ const Nav_Bar_loggedIn_Component: React.FC<Nav_Bar_loggedIn_ComponentProps> = ({
     (state: RootState) => state.profileDialoguePopup.isOpen
   );
 
-  //conditional rendering part
+  console.log("data", userData);
 
   return (
     <>
@@ -66,7 +66,7 @@ const Nav_Bar_loggedIn_Component: React.FC<Nav_Bar_loggedIn_ComponentProps> = ({
             <img
               onClick={() => dispatch(openProfileDialoguePopup())}
               className="profile-image-container profile-image-container-hover"
-              src={userData.pfp ?? get_image_from_api(userData.email)}
+              src={base64Converter(userData)}
               alt="profile"
             />
 
@@ -83,7 +83,6 @@ const Nav_Bar_loggedIn_Component: React.FC<Nav_Bar_loggedIn_ComponentProps> = ({
             >
               {/* children inside the popup */}
               <Profile_dialogue_box
-                imgUrl={get_image_from_api(userData.email)}
                 userData={userData}
                 //passing the google profile pic to reduce the function call
               />

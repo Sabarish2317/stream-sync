@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import getRandomIntInclusive from "../utils/generateRandomColor";
 import Webcam from "react-webcam";
 import "./components.css";
@@ -11,6 +11,7 @@ import {
 } from "../redux state/mediaControllerPopupSlice";
 import { AppDispatch, RootState } from "../redux state/store";
 import UserData from "../models/userModel";
+import AlertContext from "../contexts/alertContext";
 
 // Things implemented
 // 1. Handle user media permission : onUserMediaError (user didnt give permission or the device is not available by system settings) the mic and video cannot be unmuted ,
@@ -18,6 +19,8 @@ import UserData from "../models/userModel";
 // 2. If the laptop shutter is closed it shows the shutter closed icon (handled by the browser)
 // 3. If user allowed both permission then video wll be shows and mic will be shown then the user can change the media-device
 // 4. the default profile name is allocated by using his name fromm the props (if logged in ) else it required for a name to be given before joining the meeting
+
+//implemented everything here abstract panna modai ah iruku
 interface JoinMeetingFrameProps {
   userData: UserData;
 }
@@ -33,19 +36,20 @@ const JoinMeetingFrame: React.FC<JoinMeetingFrameProps> = ({ userData }) => {
   ];
   const [color] = useState(colorPalette[getRandomIntInclusive(0, 4)]);
 
-  // state managment from redux states
+  //state managment from redux states
   const { isOpen, type, isMuted, isVideoOn, micDeviceId, videoDeviceId } =
     useSelector((state: RootState) => state.mediaControllerPopup); // Read the state
   const dispatch = useDispatch<AppDispatch>();
-  //get all the avaiable deives on the user's device
+
+  //return type from a browser
   interface MediaDevice {
-    //return type from a browser
     deviceId: string;
     kind: "audioinput" | "videoinput" | "audiooutput";
     label: string;
   }
   const [availableDevices, setAvailableDevices] = useState<MediaDevice[]>([]);
 
+  //get all the avaiable deives on the user's device and re-renders if the device list changes i.e if a new device is added
   useEffect(() => {
     getAvailableDevices()
       .then((Devices) => {
@@ -59,10 +63,22 @@ const JoinMeetingFrame: React.FC<JoinMeetingFrameProps> = ({ userData }) => {
       });
   }, []);
 
-  // Handle errors in getting media
-  const onUserMediaError = (error: string) => {
+  // handle errors in getting media
+  const { setAlert, setPrimaryButton } = useContext(AlertContext);
+  const onUserMediaError = () => {
     //show an popup insted of error later
-    console.error("User media error:", error);
+    //join-meeting-videoFrame.tsx:67 User media error: NotAllowedError: Permission denied
+    const showMediaErrorAlert = () => {
+      setAlert(
+        "Allow access",
+        "Coult not get permssion to access camera and mic ?",
+        "error"
+      );
+
+      setPrimaryButton("Allow", async () => {});
+    };
+
+    showMediaErrorAlert();
   };
 
   // Dynamically handle constraints for video and audio devices
@@ -78,7 +94,7 @@ const JoinMeetingFrame: React.FC<JoinMeetingFrameProps> = ({ userData }) => {
     <div
       className="join-meeting-frame-container"
       //to prevent border overflow cases when frame rate is low
-      style={{ background: isVideoOn ? "white" : "#333537" }}
+      style={{ background: isVideoOn ? "white" : "#333537", width: "100%" }}
     >
       <div className="user-name-container">
         <h5 style={{ color: "white" }}>{userData.name}</h5>
@@ -92,19 +108,21 @@ const JoinMeetingFrame: React.FC<JoinMeetingFrameProps> = ({ userData }) => {
         }}
       >
         <h2 style={{ color: "white", fontWeight: 500 }}>
+          {/* gives a short nick name to the user */}
           {userData.name.charAt(0).toUpperCase() +
             userData.name.charAt(1).toUpperCase()}
         </h2>
       </div>
+
       {/* Video feed */}
       {isVideoOn && (
         <Webcam
           className="join-meeting-frame"
-          audio={true} //mutes the mic
+          audio={isMuted} //mutes the mic
           videoConstraints={videoConstraints} // Update video constraints based on selected camera
           audioConstraints={audioConstraints} //updates the audio constraints based on selected mic
-          // onUserMedia={onUserMedia}
-          onUserMediaError={(error) => onUserMediaError(error.toString())}
+          // onUserMedia={onUserMedia}        //webRtc ku initimate panna use paniklam aprom
+          onUserMediaError={onUserMediaError}
           mirrored={true}
         />
       )}
@@ -112,7 +130,6 @@ const JoinMeetingFrame: React.FC<JoinMeetingFrameProps> = ({ userData }) => {
       {/* contianer to hold popup controller and array */}
       <div className="media-buttons-controller">
         {/* popup controller to show the device seleciton dropdown */}
-
         <div
           className="media-controller-popup"
           style={{
@@ -160,7 +177,7 @@ const JoinMeetingFrame: React.FC<JoinMeetingFrameProps> = ({ userData }) => {
               </select>
             )}
             {/* mic selection dropdown */}
-            {isOpen && type === "mic" && (
+            {isOpen && type === "mic" && isMuted && (
               <select
                 value={micDeviceId}
                 onChange={(e) => {

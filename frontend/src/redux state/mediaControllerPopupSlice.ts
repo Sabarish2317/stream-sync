@@ -1,20 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import mediaControllerPopupStateModel from "../models/mediaControllerStateModel";
 
 //This controller is used to control the media controller popup
 //it is used in the videoFrame component
 //It manages the popup and the buttons used to control the media
-interface mediaControllerPopupState {
-  isOpen: boolean; //state whether the popup is visible or not
-  type: string; //type of the popup (video, audio, speaker)
-  isMuted: boolean; //state whether the media is muted or not
-  isVideoOn: boolean; //state whether the video is on or not
-  isAudioOn: boolean; //state whether the audio is on or not
-  micDeviceId: string; //id of the selected mic
 
-  videoDeviceId: string; //id of the selected video
-}
-
-const initialState: mediaControllerPopupState = {
+const initialState: mediaControllerPopupStateModel = {
   isOpen: false,
   type: "",
   isMuted: false,

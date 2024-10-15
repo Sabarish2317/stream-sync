@@ -4,21 +4,20 @@ import UserData from "../models/userModel";
 import { closeProfileDialoguePopup } from "../redux state/profileDialoguePopupSlice";
 import { useDispatch } from "react-redux";
 import AlertContext from "../contexts/alertContext";
+import base64Converter from "../utils/base64Converter";
 // import MyDialoguePopup from "./my-dialogue-popup";
 interface Profile_dialogue_boxProps {
   userData: UserData;
-  imgUrl: string;
 }
 
 const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
   userData,
-  imgUrl,
 }) => {
   //using alert context to show alert
   const { setAlert, setPrimaryButton, setSecondaryButton } =
     useContext(AlertContext);
   const showAlert = () => {
-    setAlert("Logout", "Are you sure want to logout?", "info");
+    setAlert("Logout", "Are you sure want to logout?", "logout");
     setPrimaryButton("Logout", () => logout());
     setSecondaryButton("Cancel", () => console.log("Secondary Action"));
   };
@@ -68,7 +67,7 @@ const Profile_dialogue_box: React.FC<Profile_dialogue_boxProps> = ({
         >
           <img
             className="profile-image-container"
-            src={userData.pfp ? userData.pfp : imgUrl}
+            src={base64Converter(userData)}
             alt="profile"
           />
           <div className="name-and-email-container column">

@@ -273,7 +273,7 @@ a {
   background-color: rgba(86, 103, 137, 0.15);
 }
 .button-outline:active {
-  background-color: #a1e86e;
+  background-color: #a1e86e0e;
 }
 
 .navigate-link-button:hover {

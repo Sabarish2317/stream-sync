@@ -5,13 +5,10 @@ import uri from "../../../../../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useRef } from "react";
 
-interface LoginPanelProps {}
-
-const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
+const LoginPanel: React.FC = () => {
   // handling google oauth 2.0 login
-  const myRef = useRef(null);
+
   interface GoogleJwtPayload {
     email?: string;
     email_verified?: boolean;
@@ -54,7 +51,7 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
 
     //making a post request now
     try {
-      const response = await axios.post(`${uri}/api/login`, {
+      const response = await axios.post(`${uri}/api/signin`, {
         email,
         password,
       });
@@ -200,19 +197,17 @@ const LoginPanel: React.FC<LoginPanelProps> = ({}) => {
 
               if (credential) {
                 const decoded = jwtDecode<GoogleJwtPayload>(credential);
-
+                console.log(decoded);
                 if (!decoded.email) {
                   setError("Error try signing in another way");
                   setLoading(false);
                   return;
                 }
                 try {
-                  const response = await axios.post(
-                    `${uri}/api/oauth2/google/login`,
-                    {
-                      email: decoded.email,
-                    }
-                  );
+                  const response = await axios.post(`${uri}/api/signin`, {
+                    email: decoded.email,
+                    email_verified: decoded.email_verified,
+                  });
                   if (response.status === 200) {
                     // Save token and redirect to home page
                     localStorage.setItem("token", response.data.token);

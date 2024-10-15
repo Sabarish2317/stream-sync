@@ -87,7 +87,7 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
       }}
     >
       {children}
-      {visible && (
+      {title && (
         <AlertUI
           title={title}
           body={body}
@@ -134,7 +134,7 @@ const AlertUI: React.FC<{
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "10px",
+            gap: "6px",
             alignSelf: "stretch",
           }}
         >
@@ -142,37 +142,30 @@ const AlertUI: React.FC<{
             src={
               //handle this later ra
               type === "info"
-                ? "./../../public/assets/icons/info-icon.svg"
-                : type === "error"
-                ? "./../../public/assets/icons/info-icon.svg"
-                : "./../../public/assets/icons/info-icon.svg"
+                ? "/assets/icons/info-icon.svg"
+                : type === "logout"
+                ? "/assets/icons/logout-icon-m.svg"
+                : "/assets/icons/info-icon.svg"
             }
             alt={`${type} icon`}
           />
         </div>
+        <div className="content">
+          <h3 style={{ alignSelf: "stretch", fontWeight: 600 }}>{title}</h3>
+          <h4
+            style={{
+              fontStyle: "normal",
+              fontWeight: "500",
+              lineHeight: "20px",
+              color: "rgba(21, 25, 32, 0.80)",
+              marginBottom: "6px",
+            }}
+          >
+            {body}
+          </h4>
+        </div>
 
-        <h3 style={{ alignSelf: "stretch", fontWeight: 600 }}>{title}</h3>
-        <h4
-          style={{
-            fontStyle: "normal",
-            fontWeight: "400",
-            lineHeight: "20px",
-            color: "rgba(21, 25, 32, 0.50)",
-          }}
-        >
-          {body}
-        </h4>
         <div>
-          {/* {secondaryButtonText && (
-            <button
-              onClick={() => {
-                secondaryButtonFunction();
-                onClose();
-              }}
-            >
-              {secondaryButtonText}
-            </button>
-          )} */}
           <div
             className="buttons-container"
             style={{
@@ -183,26 +176,54 @@ const AlertUI: React.FC<{
               gap: "12px",
             }}
           >
-            <button
-              className="button-outline button-m"
-              style={{
-                flex: 1,
-                width: "100%",
-                border: "1px solid inside rgba(86, 103, 137, 0.26)",
-              }}
-              onClick={onClose}
-            >
-              <h4
+            {secondaryButtonText && (
+              <button
+                className="button-outline button-m"
                 style={{
-                  fontStyle: "normal",
-                  fontWeight: "600",
-                  lineHeight: "20px",
-                  color: "rgba(21, 25, 32, 0.50)",
+                  flex: 1,
+                  width: "100%",
+                  border: "1px solid inside rgba(86, 103, 137, 0.26)",
+                }}
+                onClick={() => {
+                  secondaryButtonFunction();
+                  onClose();
                 }}
               >
-                Cancel
-              </h4>
-            </button>
+                <h4
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    color: "rgba(21, 25, 32, 0.50)",
+                  }}
+                >
+                  {secondaryButtonText}
+                </h4>
+              </button>
+            )}
+            {!secondaryButtonText && (
+              <button
+                className="button-outline button-m"
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  border: "1px solid inside rgba(86, 103, 137, 0.26)",
+                }}
+                onClick={onClose}
+              >
+                <h4
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    color: "rgba(21, 25, 32, 0.50)",
+                  }}
+                >
+                  Cancel
+                </h4>
+              </button>
+            )}
+            {/* primary button */}
             {primaryButtonText && (
               <button
                 className="button-m"

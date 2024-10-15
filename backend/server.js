@@ -21,7 +21,7 @@ app.use("/api", userRoutes); //user Authenticationn routes
 //default endpoint
 app.use("*", (req, res) => {
   console.log("correct ah type pandra");
-  res.send("correct ah type pandra");
+  res.status(401).send("correct ah type pandra");
 });
 
 //server and db setup

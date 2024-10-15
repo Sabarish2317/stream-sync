@@ -45,6 +45,7 @@ const userSlice = createSlice({
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.loading = false;
         state.userData = action.payload;
+        console.log(action.payload);
         state.isAuthenticated = true;
         state.error = "";
       })

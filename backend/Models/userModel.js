@@ -17,19 +17,11 @@ const userSchema = new mongoose.Schema({
     // select: false,
   },
   profilePicture: {
-    type: String,
+    img: {
+      data: String,
+      contentType: String,
+    },
   },
-  // oauth: {
-  //   provider: {
-  //     type: String,
-  //   },
-  //   providerId: {
-  //     type: String,
-  //   },
-  //   token: {
-  //     type: String,
-  //   },
-  // },
   roomsCreated: {
     type: Number,
     default: 0,
